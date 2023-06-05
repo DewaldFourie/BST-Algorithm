@@ -23,6 +23,30 @@ export default class Tree{
         prettyPrint(this.root);
         console.log("------------------------------------------------------------------------");
     }
+
+    // Method to search for a value in the tree, returns the node where it is
+    find(value){
+        this.root = this.findValue(this.root, value);
+        if (this.root == null){
+            console.log(`Value: ${value} not in tree`);
+        }
+        else{
+            console.log(this.root);
+        }
+    }
+
+    findValue(root, value){
+        if (root == null || root.value == value){
+            return root;
+        }
+        if (root.value < value){
+            return this.findValue(root.rightNode, value);
+        }
+        else{
+            return this.findValue(root.leftNode, value);
+        }
+    }
+
     // Methods to insert a new value in the tree
     insert(value){
         this.root = this.insertNode(this.root, value)
@@ -80,7 +104,30 @@ export default class Tree{
         return minV;
     }
 
+    // Level Order method to traverse the tree in a breadth-first manner
+    levelOrder(cbFunction){
+        const queue = [this.root];
+        const levelOrderList = [];
+        while (queue.length > 0){
+            const currentNode = queue.shift();
+            if (cbFunction){
+                cbFunction(currentNode);
+            }
+            else {
+                levelOrderList.push(currentNode.value);
+            }
+            if (currentNode.leftNode){
+                queue.push(currentNode.leftNode);
+            }
+            if (currentNode.rightNode){
+                queue.push(currentNode.rightNode);
+            }
+        }
+        return levelOrderList;
+    }
     
+
+
 }
 
 // function describes the logic for the visualization of the tree in the console
