@@ -21,8 +21,24 @@ function randomArray(size){
     return Array.from({ length: size}, () => Math.floor(Math.random() * 100))
 }
 
-const myArray = randomArray(30);
+const myArray = randomArray(100);
 const tree = new Tree(myArray);
 
 console.log(myArray);
+tree.printTree();
+
+tree.isBalanced();
+console.log(`In Order: ${tree.inOrder()}`);
+console.log(`Pre-Order: ${tree.preOrder()}`);
+console.log(`Post-Order: ${tree.postOrder()}`)
+tree.insert(204);
+tree.insert(502);
+tree.insert(608);
+tree.insert(304);
+tree.insert(800);
+tree.insert(1052);
+tree.printTree();
+tree.isBalanced();
+tree.reBalance();
+tree.isBalanced();
 tree.printTree();

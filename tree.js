@@ -26,7 +26,7 @@ export default class Tree{
 
     // Methods to check if the tree is balanced
     isBalanced(){
-        return this.checkBalanced(this.root)
+        return console.log(`Balanced: ${this.checkBalanced(this.root)}`);
     }
 
     checkBalanced(node){
@@ -34,7 +34,7 @@ export default class Tree{
             return true;
         }
         const leftHeight = this.height(node.leftNode);
-        const rightHeight = this.height(node.leftNode);
+        const rightHeight = this.height(node.rightNode);
         
         const heightDiff = Math.abs(leftHeight - rightHeight);
         if (heightDiff > 1){
@@ -44,10 +44,10 @@ export default class Tree{
     }
 
     // Methods to balance an unbalanced tree
-     reBalance(){
+    reBalance(){
         const sortedArray = this.inOrder();
         this.root = this.buildTree(sortedArray);
-     }
+    }
 
     // Method to search for a value in the tree, returns the node where it is
     find(value){
@@ -148,7 +148,7 @@ export default class Tree{
                 queue.push(currentNode.rightNode);
             }
         }
-        return levelOrderList;
+        return console.log(`Level Order: ${levelOrderList}`);
     }
 
     // Method to perform an in-order traversal of the tree
