@@ -24,6 +24,31 @@ export default class Tree{
         console.log("------------------------------------------------------------------------");
     }
 
+    // Methods to check if the tree is balanced
+    isBalanced(){
+        return this.checkBalanced(this.root)
+    }
+
+    checkBalanced(node){
+        if (node === null){
+            return true;
+        }
+        const leftHeight = this.height(node.leftNode);
+        const rightHeight = this.height(node.leftNode);
+        
+        const heightDiff = Math.abs(leftHeight - rightHeight);
+        if (heightDiff > 1){
+            return false
+        } 
+        return this.checkBalanced(node.leftNode) && this.checkBalanced(node.rightNode);
+    }
+
+    // Methods to balance an unbalanced tree
+     reBalance(){
+        const sortedArray = this.inOrder();
+        this.root = this.buildTree(sortedArray);
+     }
+
     // Method to search for a value in the tree, returns the node where it is
     find(value){
         this.root = this.findValue(this.root, value);
@@ -125,8 +150,95 @@ export default class Tree{
         }
         return levelOrderList;
     }
-    
 
+    // Method to perform an in-order traversal of the tree
+    inOrder(cbFunction){
+        const result = [];
+        this.inOrderTraversal(this.root, cbFunction, result);
+        return result;
+    }
+
+    inOrderTraversal(node, cbFunction, result){
+        if (node === null){
+            return;
+        }
+        this.inOrderTraversal(node.leftNode, cbFunction, result);
+        if (cbFunction){
+            cbFunction(node);
+        } 
+        else {
+            result.push(node.value);
+        }
+        this.inOrderTraversal(node.rightNode, cbFunction, result);
+    }
+
+    // Method to perform a pre-order traversal of the tree
+    preOrder(cbFunction){
+        const result = [];
+        this.preOrderTraversal(this.root, cbFunction, result);
+        return result;
+    }
+
+    preOrderTraversal(node, cbFunction, result){
+        if (node === null){
+            return;
+        }
+        if (cbFunction){
+            cbFunction(node);
+        }
+        else {
+            result.push(node.value);
+        }
+        this.preOrderTraversal(node.leftNode, cbFunction, result);
+        this.preOrderTraversal(node.rightNode, cbFunction, result);
+    }
+
+    // Method to perform a post-order traversal of the tree
+    postOrder(cbFunction){
+        const result = [];
+        this.postOrderTraversal(this.root, cbFunction, result);
+        return result;
+    }
+
+    postOrderTraversal(node, cbFunction, result){
+        if (node === null){
+            return
+        }
+        this.postOrderTraversal(node.leftNode, cbFunction, result);
+        this.postOrderTraversal(node.rightNode, cbFunction, result);
+        if (cbFunction){
+            cbFunction(node);
+        }
+        else {
+            result.push(node.value);
+        }
+    }
+
+    // Method to get the height of the tree, (defined as the number of edges in longest path from a given node to a leaf node.)
+    height(node = this.root){
+        if (node === null){
+            return -1;
+        }
+        const leftHeight = this.height(node.leftNode);
+        const rightHeight = this.height(node.rightNode);
+        return Math.max(leftHeight, rightHeight) + 1
+    }
+
+    // Method to get the depth of the tree, (defined as the number of edges in path from a given node to the tree’s root node)
+    depth(nodeVal, node = this.root, edgeCount = 0){
+        if (node === null){
+            return;
+        }
+        if (node.value === nodeVal){
+            return edgeCount;
+        }
+        if (node.value < nodeVal){
+            return this.depth(nodeVal, node.rightNode, edgeCount + 1);
+        }
+        else {
+            return this.depth(nodeVal, node.leftNode, edgeCount + 1);
+        }
+    }
 
 }
 
